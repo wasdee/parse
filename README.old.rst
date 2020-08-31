@@ -1,6 +1,3 @@
-# a fork of parse with dot access
-
-
 Parse strings using a specification based on the Python format() syntax.
 
    ``parse()`` is the opposite of ``format()``
