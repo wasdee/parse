@@ -3,7 +3,7 @@ requires = ["setuptools>=61.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "parse"
+name = "parse_with_dot_access"
 dynamic = ["version"]
 readme = "README.rst"
 description = "parse() is the opposite of format()"
@@ -16,17 +16,18 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "License :: OSI Approved :: MIT License",
 ]
+repository = "https://github.com/CircleOnCircles/parse"
 
 [[project.authors]]
 name = "Richard Jones"
 email = "richard@python.org"
 
 [[project.maintainers]]
-name = "Wim Glenn"
-email = "hey@wimglenn.com"
+name = "Nutchanon Ninyawee"
+email = "me@nutchanon.org"
 
 [project.urls]
-homepage = "https://github.com/r1chardj0n3s/parse"
+homepage = "https://github.com/CircleOnCircles/parse"
 
 [tool.setuptools]
 py-modules = ["parse"]

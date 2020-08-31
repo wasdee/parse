@@ -9,10 +9,13 @@ venv
 __pycache__/
 .coverage
 .pytest_cache
-parse.egg-info
+*.egg-info/
 .python-version
 
 MANIFEST
 build
 dist
 .ropeproject
+
+poetry.lock
+.venv/

@@ -874,6 +874,9 @@ class Result(object):
             return self.fixed[item]
         return self.named[item]
 
+    def __getattr__(self, attribute_name):
+        return self.named[attribute_name]
+
     def __repr__(self):
         return "<%s %r %r>" % (self.__class__.__name__, self.fixed, self.named)
 
