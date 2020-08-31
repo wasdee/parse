@@ -1,21 +1,9 @@
-# a fork of parse with dot access
-
-Installation
-------------
-
-.. code-block:: pycon
-
-    pip install parse
-
-Usage
------
-
-Parse strings using a specification based on the Python `format()`_ syntax.
+Parse strings using a specification based on the Python format() syntax.
 
    ``parse()`` is the opposite of ``format()``
 
 The module is set up to only export ``parse()``, ``search()``, ``findall()``,
-and ``with_pattern()`` when ``import *`` is used:
+and ``with_pattern()`` when ``import \*`` is used:
 
 >>> from parse import *
 
@@ -64,9 +52,6 @@ case by specifying `case_sensitive=True`:
 
     >>> parse('SPAM', 'spam', case_sensitive=True) is None
     True
-
-.. _format():
-  https://docs.python.org/3/library/stdtypes.html#str.format
 
 
 Format Syntax
@@ -147,7 +132,7 @@ format specification might have been used.
 
 Most of `format()`'s `Format Specification Mini-Language`_ is supported:
 
-   [[fill]align][sign][0][width][.precision][type]
+   [[fill]align][0][width][.precision][type]
 
 The differences between `parse()` and `format()` are:
 
@@ -158,8 +143,7 @@ The differences between `parse()` and `format()` are:
   That is, the "#" format character is handled automatically by d, b, o
   and x formats. For "d" any will be accepted, but for the others the correct
   prefix must be present if at all.
-- Numeric sign is handled automatically.  A sign specifier can be given, but
-  has no effect.
+- Numeric sign is handled automatically.
 - The thousands separator is handled automatically if the "n" type is used.
 - The types supported are a slightly different mix to the format() types.  Some
   format() types come directly over: "d", "n", "%", "f", "e", "b", "o" and "x".
@@ -208,21 +192,6 @@ tt    Time                                        time
       e.g. 10:21:36 PM -5:30
 ===== =========================================== ========
 
-The type can also be a datetime format string, following the
-`1989 C standard format codes`_, e.g. ``%Y-%m-%d``. Depending on the
-directives contained in the format string, parsed output may be an instance
-of ``datetime.datetime``, ``datetime.time``, or ``datetime.date``.
-
-.. code-block:: pycon
-
-    >>> parse("{:%Y-%m-%d %H:%M:%S}", "2023-11-23 12:56:47")
-    <Result (datetime.datetime(2023, 11, 23, 12, 56, 47),) {}>
-    >>> parse("{:%H:%M}", "10:26")
-    <Result (datetime.time(10, 26),) {}>
-    >>> parse("{:%Y/%m/%d}", "2023/11/25")
-    <Result (datetime.date(2023, 11, 25),) {}>
-
-
 Some examples of typed parsing with ``None`` returned if the typing
 does not match:
 
@@ -261,7 +230,7 @@ a maximum. For example:
     >>> parse('{:2d}{:2d}', '0440')           # parsing two contiguous numbers
     <Result (4, 40) {}>
 
-Some notes for the special date and time types:
+Some notes for the date and time types:
 
 - the presence of the time part is optional (including ISO 8601, starting
   at the "T"). A full datetime object will always be returned; the time
@@ -291,12 +260,9 @@ will be raised in this instance. The current limit is about 15. It is hoped
 that this limit will be removed one day.
 
 .. _`Format String Syntax`:
-  https://docs.python.org/3/library/string.html#format-string-syntax
+  http://docs.python.org/library/string.html#format-string-syntax
 .. _`Format Specification Mini-Language`:
-  https://docs.python.org/3/library/string.html#format-specification-mini-language
-.. _`1989 C standard format codes`:
-  https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes
-
+  http://docs.python.org/library/string.html#format-specification-mini-language
 
 
 Result and Match Objects
@@ -341,7 +307,7 @@ with the same identifier:
     >>> def shouty(string):
     ...    return string.upper()
     ...
-    >>> parse('{:shouty} world', 'hello world', {"shouty": shouty})
+    >>> parse('{:shouty} world', 'hello world', dict(shouty=shouty))
     <Result ('HELLO',) {}>
 
 If the type converter has the optional ``pattern`` attribute, it is used as
@@ -352,9 +318,9 @@ regular expression for better pattern matching (instead of the default one):
     >>> def parse_number(text):
     ...    return int(text)
     >>> parse_number.pattern = r'\d+'
-    >>> parse('Answer: {number:Number}', 'Answer: 42', {"Number": parse_number})
+    >>> parse('Answer: {number:Number}', 'Answer: 42', dict(Number=parse_number))
     <Result () {'number': 42}>
-    >>> _ = parse('Answer: {:Number}', 'Answer: Alice', {"Number": parse_number})
+    >>> _ = parse('Answer: {:Number}', 'Answer: Alice', dict(Number=parse_number))
     >>> assert _ is None, "MISMATCH"
 
 You can also use the ``with_pattern(pattern)`` decorator to add this
@@ -366,7 +332,7 @@ information to a type converter function:
     >>> @with_pattern(r'\d+')
     ... def parse_number(text):
     ...    return int(text)
-    >>> parse('Answer: {number:Number}', 'Answer: 42', {"Number": parse_number})
+    >>> parse('Answer: {number:Number}', 'Answer: 42', dict(Number=parse_number))
     <Result () {'number': 42}>
 
 A more complete example of a custom type might be:
@@ -392,7 +358,7 @@ in the ``with_pattern()`` decorator:
     >>> @with_pattern(r'((\d+))', regex_group_count=2)
     ... def parse_number2(text):
     ...    return int(text)
-    >>> parse('Answer: {:Number2} {:Number2}', 'Answer: 42 43', {"Number2": parse_number2})
+    >>> parse('Answer: {:Number2} {:Number2}', 'Answer: 42 43', dict(Number2=parse_number2))
     <Result (42, 43) {}>
 
 Otherwise, this may cause parsing problems with unnamed/fixed parameters.
@@ -416,35 +382,8 @@ So, even though `{'dir1': 'root/parent', 'dir2': 'subdir'}` would also fit
 the pattern, the actual match represents the shortest successful match for
 ``dir1``.
 
-Developers
-----------
-
-Want to contribute to parse? Fork the repo to your own GitHub account, and create a pull-request.
-
-.. code-block:: bash
-
-   git clone git@github.com:r1chardj0n3s/parse.git
-   git remote rename origin upstream
-   git remote add origin git@github.com:YOURUSERNAME/parse.git
-   git checkout -b myfeature
-
-To run the tests locally:
-
-.. code-block:: bash
-
-   python -m venv .venv
-   source .venv/bin/activate
-   pip install -r tests/requirements.txt
-   pip install -e .
-   pytest
-
 ----
 
-Changelog
----------
-
-- 1.20.0 Added support for strptime codes (thanks @bendichter)
-- 1.19.1 Added support for sign specifiers in number formats (thanks @anntzer)
 - 1.19.0 Added slice access to fixed results (thanks @jonathangjertsen).
   Also corrected matching of *full string* vs. *full line* (thanks @giladreti)
   Fix issue with using digit field numbering and types
