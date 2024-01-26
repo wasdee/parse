@@ -10,32 +10,32 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Checkout code
-                uses: actions/checkout@v2
+          - name: Checkout code
+            uses: actions/checkout@v2
 
-            - name: Set up Python
-                uses: actions/setup-python@v2
-                with:
-                    python-version: 3.x
+          - name: Set up Python
+            uses: actions/setup-python@v2
+            with:
+              python-version: 3.x
 
-            - name: Install Poetry
-                run: |
-                    pip install poetry
+          - name: Install Poetry
+            run: |
+              pip install poetry
 
-            - name: Configure Poetry
-                run: |
-                    poetry config virtualenvs.create false
-                    poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+          - name: Configure Poetry
+            run: |
+              poetry config virtualenvs.create false
+              poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
 
-            - name: Rebase to upstream master
-                run: |
-                    git remote add upstream https://github.com/r1chardj0n3s/parse
-                    git fetch upstream
-                    git checkout main
-                    git rebase upstream/master
+          - name: Rebase to upstream master
+            run: |
+              git remote add upstream https://github.com/r1chardj0n3s/parse
+              git fetch upstream
+              git checkout main
+              git rebase upstream/master
 
-            - name: Build and Publish
-                run: |
-                    poetry install --no-dev
-                    poetry build
-                    poetry publish --no-interaction
+          - name: Build and Publish
+            run: |
+              poetry install --no-dev
+              poetry build
+              poetry publish --no-interaction
