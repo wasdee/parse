@@ -1,6 +1,14 @@
+[tool.poetry]
+name = "parse_with_dot_access"
+version = "0.1.0"
+description = ""
+authors = ["Nutchanon Ninyawee <nutchanon@codustry.com>"]
+readme = "README.md"
+include = ["parse.py"]
+
 [build-system]
-requires = ["setuptools>=61.2"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "parse_with_dot_access"
