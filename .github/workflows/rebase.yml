@@ -48,6 +48,7 @@ jobs:
               git fetch upstream
               git checkout main
               git rebase upstream/master
+              git push --force-with-lease origin main
 
           - name: Build and Publish
             if: env.REBASE_NEEDED == 'true'
