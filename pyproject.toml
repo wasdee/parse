@@ -1,40 +1,25 @@
 [tool.poetry]
 name = "parse_with_dot_access"
-version = "0.1.0"
-description = ""
-authors = ["Nutchanon Ninyawee <nutchanon@codustry.com>"]
+version = "1.18.0"
+description = "a daily rebase of parse with dot access"
 readme = "README.md"
-include = ["parse.py"]
+license = "ISC"
+packages = [
+    { include = "parse.py" },
+]
+repository = "https://github.com/CircleOnCircles/parse"
+authors = [
+    "Richard Jones <richard@python.org>"
+]
+maintainers = [
+    "Wim Glenn <hey@wimglenn.com>",
+    "Nutchanon Ninyawee <me@nutchanon.org>"
+]
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[project]
-name = "parse_with_dot_access"
-version = "1.18.0"
-description = "a daily rebase of parse with dot access"
-authors = ["Nutchanon Ninyawee <me@nutchanon.org>"]
-license = "ISC"
-readme = "README.md"
-repository = "https://github.com/CircleOnCircles/parse"
+[tool.poetry.dependencies]
+python = "^3.7"
 
-[[project.authors]]
-name = "Richard Jones"
-email = "richard@python.org"
-
-[[project.maintainers]]
-name = "Nutchanon Ninyawee"
-email = "me@nutchanon.org"
-
-[project.urls]
-homepage = "https://github.com/CircleOnCircles/parse"
-
-[tool.setuptools]
-py-modules = ["parse"]
-
-[tool.setuptools.dynamic]
-version = {attr = "parse.__version__"}
-
-[tool.distutils.bdist_wheel]
-universal = true
