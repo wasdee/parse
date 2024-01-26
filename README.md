@@ -1,6 +1,8 @@
-# a fork of parse with dot access
+# parse with dot access
 
-A mirror fork of [parse](https://github.com/r1chardj0n3s/parse) with dot notation access. 
+A daily rebase of [`parse`](https://github.com/r1chardj0n3s/parse) but, with dot notation access 😉.
+
+A bit of [history](https://github.com/r1chardj0n3s/parse/issues/117) is that the author don't like this idea. so, I forked.
 
 ## Get Started
 

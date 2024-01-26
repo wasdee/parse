@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "parse_with_dot_access"
 version = "1.18.0"
-description = "a fork of parse with dot access"
+description = "a daily rebase of parse with dot access"
 authors = ["Nutchanon Ninyawee <me@nutchanon.org>"]
 license = "ISC"
 readme = "README.md"
