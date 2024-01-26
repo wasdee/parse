@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "parse_with_dot_access"
-version = "1.18.0"
+version = "1.20.0"
 description = "a daily rebase of parse with dot access"
 readme = "README.md"
 license = "ISC"
