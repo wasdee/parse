@@ -1,57 +1,57 @@
 name: Rebase and Publish
 
 on:
-    workflow_dispatch:
-    schedule:
-      - cron: '0 0 * * *' # At 00:00 (midnight) every day
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # At 00:00 (midnight) every day
 
 jobs:
-    rebase_and_publish:
-        runs-on: ubuntu-latest
+  rebase_and_publish:
+    runs-on: ubuntu-latest
 
         steps:
-          - name: Checkout code
-            uses: actions/checkout@v2
+        - name: Checkout code
+          uses: actions/checkout@v2
 
-          - name: Set up Python
-            uses: actions/setup-python@v2
-            with:
-              python-version: 3.x
+        - name: Set up Python
+          uses: actions/setup-python@v2
+          with:
+            python-version: 3.x
 
-          - name: Install Poetry
-            run: |
-              pip install poetry
+        - name: Install Poetry
+          run: |
+            pip install poetry
 
-          - name: Configure Poetry
-            run: |
-              poetry config virtualenvs.create false
-              poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+        - name: Configure Poetry
+          run: |
+            poetry config virtualenvs.create false
+            poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
 
-          - name: Check if rebase is needed
-            id: check_rebase
-            run: |
-              git remote add upstream https://github.com/r1chardj0n3s/parse
-              git fetch upstream
-              if git diff --exit-code main upstream/master; then
-                echo "No rebase needed."
-                echo "REBASE_NEEDED=false" >> $GITHUB_ENV
-              else
-                echo "Rebase needed."
-                echo "REBASE_NEEDED=true" >> $GITHUB_ENV
-              fi
+        - name: Check if rebase is needed
+          id: check_rebase
+          run: |
+            git remote add upstream https://github.com/r1chardj0n3s/parse
+            git fetch upstream
+            if git diff --exit-code main upstream/master; then
+              echo "No rebase needed."
+              echo "REBASE_NEEDED=false" >> $GITHUB_ENV
+            else
+              echo "Rebase needed."
+              echo "REBASE_NEEDED=true" >> $GITHUB_ENV
+            fi
 
-          - name: Rebase to upstream master
-            if: env.REBASE_NEEDED == 'true'
-            run: |
-              git remote add upstream https://github.com/r1chardj0n3s/parse
-              git fetch upstream
-              git checkout main
-              git rebase upstream/master
-              git push --force-with-lease origin main
+        - name: Rebase to upstream master
+          if: env.REBASE_NEEDED == 'true'
+          run: |
+            git remote add upstream https://github.com/r1chardj0n3s/parse
+            git fetch upstream
+            git checkout main
+            git rebase upstream/master
+            git push --force-with-lease origin main
 
-          - name: Build and Publish
-            if: env.REBASE_NEEDED == 'true'
-            run: |
-              poetry install --no-dev
-              poetry build
-              poetry publish --no-interaction
+        - name: Build and Publish
+          if: env.REBASE_NEEDED == 'true'
+          run: |
+            poetry install --no-dev
+            poetry build
+            poetry publish --no-interaction
