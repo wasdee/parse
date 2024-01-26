@@ -50,6 +50,7 @@ jobs:
               git rebase upstream/master
 
           - name: Build and Publish
+            if: env.REBASE_NEEDED == 'true'
             run: |
               poetry install --no-dev
               poetry build
